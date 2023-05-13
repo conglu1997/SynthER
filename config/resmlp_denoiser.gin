@@ -1,0 +1,43 @@
+# Default Residual MLP configuration.
+
+# Model the terminals and discretize them with threshold 0.5.
+modelled_terminals = True
+make_inputs.modelled_terminals = %modelled_terminals
+split_diffusion_samples.modelled_terminals = %modelled_terminals
+split_diffusion_samples.terminal_threshold = 0.5
+
+construct_diffusion_model.normalizer_type = 'standard'
+construct_diffusion_model.denoising_network = @ResidualMLPDenoiser
+# No normalization on the terminals.
+construct_diffusion_model.disable_terminal_norm = True
+
+# Network.
+ResidualMLPDenoiser.dim_t = 128
+ResidualMLPDenoiser.mlp_width = 2048
+ResidualMLPDenoiser.num_layers = 6
+ResidualMLPDenoiser.learned_sinusoidal_cond = False
+ResidualMLPDenoiser.random_fourier_features = True
+ResidualMLPDenoiser.learned_sinusoidal_dim = 16
+ResidualMLPDenoiser.activation = 'relu'
+ResidualMLPDenoiser.layer_norm = False
+
+# Diffusion Model.
+ElucidatedDiffusion.num_sample_steps = 128
+ElucidatedDiffusion.sigma_data = 1.0
+ElucidatedDiffusion.S_churn = 80
+ElucidatedDiffusion.S_tmin = 0.05
+ElucidatedDiffusion.S_tmax = 50
+ElucidatedDiffusion.S_noise = 1.003
+
+# Training.
+Trainer.train_batch_size = 1024
+Trainer.small_batch_size = 256
+Trainer.train_lr = 3e-4
+Trainer.lr_scheduler = 'cosine'
+Trainer.weight_decay = 0
+Trainer.train_num_steps = 100000
+Trainer.save_and_sample_every = 10000
+
+# Sampling.
+SimpleDiffusionGenerator.num_sample_steps = 128
+SimpleDiffusionGenerator.sample_batch_size = 100000

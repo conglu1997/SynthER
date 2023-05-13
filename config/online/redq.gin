@@ -1,0 +1,6 @@
+# REDQ baseline.
+
+include 'config/online/sac.gin'
+
+redq_sac.utd_ratio = 20
+redq_sac.num_Q = 10

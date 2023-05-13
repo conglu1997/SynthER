@@ -1,0 +1,45 @@
+# SAC (SynthER) for DMC environments.
+
+include 'config/online/sac.gin'
+
+# Higher UTD with synthetic data.
+redq_sac.utd_ratio = 20
+
+# SAC/REDQ diffusion args.
+redq_sac.disable_diffusion = False
+redq_sac.retrain_diffusion_every = 10000
+redq_sac.num_samples = 200000
+redq_sac.diffusion_sample_ratio = 0.5
+redq_sac.diffusion_start = 0
+redq_sac.skip_reward_norm = True
+
+# Online setup.
+construct_diffusion_model.denoising_network = @ResidualMLPDenoiser
+construct_diffusion_model.normalizer_type = 'standard'
+
+# No terminals in DMC.
+modelled_terminals = False
+redq_sac.model_terminals = %modelled_terminals
+split_diffusion_samples.modelled_terminals = %modelled_terminals
+
+# Diffusion denoising network.
+ResidualMLPDenoiser.dim_t = 256
+ResidualMLPDenoiser.mlp_width = 1024
+ResidualMLPDenoiser.num_layers = 6
+ResidualMLPDenoiser.learned_sinusoidal_cond = False
+ResidualMLPDenoiser.random_fourier_features = True
+ResidualMLPDenoiser.learned_sinusoidal_dim = 16
+ResidualMLPDenoiser.activation = 'relu'
+ResidualMLPDenoiser.layer_norm = False
+
+# Diffusion training.
+REDQTrainer.train_batch_size = 256
+REDQTrainer.train_lr = 3e-4
+REDQTrainer.lr_scheduler = "cosine"
+REDQTrainer.weight_decay = 0
+REDQTrainer.train_num_steps = 100000
+# Don't save.
+REDQTrainer.save_and_sample_every = 100000000
+
+# Diffusion sampling.
+SimpleDiffusionGenerator.num_sample_steps = 128

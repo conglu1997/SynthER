@@ -1,0 +1,11 @@
+# SAC (SynthER) for OpenAI environments.
+
+include 'config/online/sac_synther_dmc.gin'
+
+# Normalize rewards.
+redq_sac.skip_reward_norm = False
+
+# Model terminals.
+modelled_terminals = True
+redq_sac.model_terminals = %modelled_terminals
+split_diffusion_samples.modelled_terminals = %modelled_terminals

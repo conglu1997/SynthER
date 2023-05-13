@@ -1,0 +1,6 @@
+# Default Residual MLP configuration (lower width for some datasets).
+
+include 'config/resmlp_denoiser.gin'
+
+# Network.
+ResidualMLPDenoiser.mlp_width = 1024
