@@ -1,5 +1,8 @@
 # Synthetic Experience Replay
 
+[![Twitter](https://badgen.net/badge/icon/twitter?icon=twitter&label)](https://twitter.com/cong_ml/status/1635642214586937346)
+[![arXiv](https://img.shields.io/badge/arXiv-2210.07105-b31b1b.svg)](https://arxiv.org/abs/2303.06614)
+
 <p align="center">
   <img src="figs/diffusion.png" />
 </p>
