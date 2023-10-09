@@ -12,7 +12,7 @@ experience, leading to large gains in sample efficiency and scaling benefits. We
 offline and online algorithms in this codebase, including SAC, TD3+BC, IQL, EDAC, and CQL. For further details, please
 see the paper:
 
-**_Synthetic Experience Replay_**; Cong Lu*, Philip J. Ball*, Yee Whye Teh, Jack Parker-Holder.
+**_Synthetic Experience Replay_**; Cong Lu*, Philip J. Ball*, Yee Whye Teh, Jack Parker-Holder. [NeurIPS, 2023](https://neurips.cc/virtual/2023/poster/72742).
 
 <p align="center">
   <a href=https://arxiv.org/abs/2303.06614>View on arXiv</a>
