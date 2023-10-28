@@ -26,6 +26,7 @@ To install, clone the repository and run the following:
 git submodule update --init --recursive
 pip install -r requirements.txt
 ```
+If you don't have MuJoCo installed, follow the instructions here: https://github.com/openai/mujoco-py#install-mujoco
 
 The code was tested on Python 3.8 and 3.9.
 
