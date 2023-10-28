@@ -27,7 +27,7 @@ git submodule update --init --recursive
 pip install -r requirements.txt
 ```
 
-The code was tested on Python 3.8.
+The code was tested on Python 3.8 and 3.9.
 
 ## Running Instructions
 
