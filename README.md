@@ -26,6 +26,7 @@ To install, clone the repository and run the following:
 git submodule update --init --recursive
 pip install -r requirements.txt
 ```
+If you don't have MuJoCo installed, follow the instructions here: https://github.com/openai/mujoco-py#install-mujoco
 
 The code was tested on Python 3.8 and 3.9.
 
@@ -36,7 +37,7 @@ The code was tested on Python 3.8 and 3.9.
 Diffusion model training (this automatically generates samples and saves them):
 
 ```bash
-python3 synther/diffusion/train_diffuser.py --dataset halfcheetah-medium_replay-v2
+python3 synther/diffusion/train_diffuser.py --dataset halfcheetah-medium-replay-v2 --wandb-entity YOUR_WANDB_USERNAME
 ```
 
 Baseline without SynthER (e.g. on TD3+BC):
