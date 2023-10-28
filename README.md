@@ -37,7 +37,7 @@ The code was tested on Python 3.8 and 3.9.
 Diffusion model training (this automatically generates samples and saves them):
 
 ```bash
-python3 synther/diffusion/train_diffuser.py --dataset halfcheetah-medium_replay-v2
+python3 synther/diffusion/train_diffuser.py --dataset halfcheetah-medium-replay-v2
 ```
 
 Baseline without SynthER (e.g. on TD3+BC):
