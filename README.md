@@ -28,6 +28,7 @@ pip install -r requirements.txt
 ```
 
 The code was tested on Python 3.8 and 3.9.
+If you don't have MuJoCo installed, follow the instructions here: https://github.com/openai/mujoco-py#install-mujoco.
 
 ## Running Instructions
 
@@ -83,6 +84,11 @@ Our codebase has everything you need for diffusion with low-dimensional data alo
 For a custom use-case, we recommend starting from the training script and `SimpleDiffusionGenerator` class
 in `synther/diffusion/train_diffuser.py`. You can modify the hyperparameters specified in `config/resmlp_denoiser.gin`
 to suit your own needs.
+
+## Additional Notes
+
+- Our codebase uses `wandb` for logging, you will need to set `--wandb-entity` across the repository.
+- Our pixel-based experiments are based on a modified version of the [V-D4RL](https://github.com/conglu1997/v-d4rl) repository. The latent representations are derived from the trunks of the [actor](https://github.com/conglu1997/v-d4rl/blob/55fde823f3ddb001dd439a701c74390eb3ac34fb/drqbc/drqv2.py#L82) and [critic](https://github.com/conglu1997/v-d4rl/blob/55fde823f3ddb001dd439a701c74390eb3ac34fb/drqbc/drqv2.py#L108C15-L108C15).
 
 ## Acknowledgements
 
