@@ -101,5 +101,5 @@ would like to particularly thank the authors of:
 
 ## Contact
 
-Please contact [Cong Lu](mailto:cong.lu@stats.ox.ac.uk) or [Philip Ball](mailto:ball@robots.ox.ac.uk) for any queries.
+Please contact [Cong Lu](mailto:conglu97*AT*outlook*DOT*com) for any queries.
 We welcome any suggestions or contributions! 
