@@ -244,8 +244,8 @@ def redq_sac(
             observations, actions, rewards, next_observations, terminals = generator.sample(num_samples=num_samples)
 
             print(f'Adding {num_samples} samples to replay buffer.')
-            for o, a, r, o2, term in zip(observations, actions, rewards, next_observations, terminals):
-                agent.diffusion_buffer.store(o, a, r, o2, term)
+            for o_s, a_s, r_s, o2_s, term_s in zip(observations, actions, rewards, next_observations, terminals):
+                agent.diffusion_buffer.store(o_s, a_s, r_s, o2_s, term_s)
 
             if print_buffer_stats:
                 ptr_location = agent.replay_buffer.ptr
