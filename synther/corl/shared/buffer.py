@@ -207,7 +207,7 @@ class DiffusionGenerator(ReplayBufferBase):
         inputs = torch.from_numpy(inputs).float()
         self.diffusion = construct_diffusion_model(inputs=inputs).to(device)
 
-        data = torch.load(diffusion_path)
+        data = torch.load(diffusion_path, map_location=device)
         if use_ema:
             ema_dict = data['ema']
             ema_dict = {k: v for k, v in ema_dict.items() if k.startswith('ema_model')}

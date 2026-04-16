@@ -3,7 +3,7 @@
 import sys
 import time
 
-import dmcgym
+import dmcgym  # noqa: F401
 import gin
 import gym
 import numpy as np
@@ -29,7 +29,7 @@ def redq_sac(
         steps_per_epoch=1000,
         max_ep_len=1000,
         n_evals_per_epoch=1,
-        logger_kwargs=dict(),
+        logger_kwargs=None,
         debug=False,
         # following are agent related hyperparameters
         hidden_sizes=(256, 256),
@@ -108,12 +108,17 @@ def redq_sac(
         epochs = mbpo_epoches.get(env_name, 300)
     total_steps = steps_per_epoch * epochs + 1
 
+    if logger_kwargs is None:
+        logger_kwargs = {}
+
     """set up logger"""
     logger = EpochLogger(**logger_kwargs)
     logger.save_config(locals())
 
     """set up environment and seeding"""
-    env_fn = lambda: wrap_gym(gym.make(env_name))
+    def env_fn():
+        return wrap_gym(gym.make(env_name))
+
     env, test_env, bias_eval_env = env_fn(), env_fn(), env_fn()
     # seed torch and numpy
     torch.manual_seed(seed)
@@ -173,7 +178,7 @@ def redq_sac(
         'q_target_mode': q_target_mode,
         'policy_update_delay': policy_update_delay,
     }
-    wandb.init(project=project_name, name=logger_kwargs['exp_name'])
+    wandb.init(project=project_name, name=logger_kwargs.get('exp_name', env_name))
     wandb.config.update(agent_config)
     agent = REDQRLPDAgent(diffusion_buffer_size, diffusion_sample_ratio, env_name, obs_dim, act_dim, act_limit, device,
                           hidden_sizes, replay_size, batch_size,

@@ -820,7 +820,7 @@ def train(config: TrainConfig):
 
     if config.load_model != "":
         policy_file = Path(config.load_model)
-        trainer.load_state_dict(torch.load(policy_file))
+        trainer.load_state_dict(torch.load(policy_file, map_location=config.device))
         actor = trainer.actor
 
     # wandb_init(asdict(config))

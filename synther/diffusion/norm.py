@@ -1,6 +1,6 @@
 # Normalizers for diffusion.
 
-from typing import List
+from typing import List, Optional
 
 import torch
 from torch import nn
@@ -43,16 +43,16 @@ class Normalizer(BaseNormalizer):
             self,
             dataset: torch.Tensor,
             eps: float = 1e-5,
-            skip_dims: List[int] = [],
+            skip_dims: Optional[List[int]] = None,
             target_std: float = 1.0,
     ):
         super().__init__()
         self.register_buffer('mean', dataset.mean(dim=0))
         self.register_buffer('std', dataset.std(dim=0) + eps)
-        self.skip_dims = skip_dims
-        if skip_dims:
-            self.mean[skip_dims] = 0.0
-            self.std[skip_dims] = 1.0
+        self.skip_dims = [] if skip_dims is None else list(skip_dims)
+        if self.skip_dims:
+            self.mean[self.skip_dims] = 0.0
+            self.std[self.skip_dims] = 1.0
         self.target_std = target_std
         print('Means:', self.mean)
         print('Stds:', self.std)
@@ -76,7 +76,7 @@ class Normalizer(BaseNormalizer):
 def normalizer_factory(
         normalizer_type: str,
         dataset: torch.Tensor,
-        skip_dims: List[int] = [],
+        skip_dims: Optional[List[int]] = None,
         **kwargs,
 ) -> BaseNormalizer:
     if normalizer_type == 'minmax':
