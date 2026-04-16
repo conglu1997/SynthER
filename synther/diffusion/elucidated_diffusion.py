@@ -284,13 +284,15 @@ class Trainer(object):
             amp: bool = False,
             fp16: bool = False,
             split_batches: bool = True,
+            use_gpu: bool = True,
     ):
         super().__init__()
         self.accelerator = Accelerator(
             split_batches=split_batches,
-            mixed_precision='fp16' if fp16 else 'no'
+            mixed_precision='fp16' if fp16 and use_gpu else 'no',
+            cpu=not use_gpu,
         )
-        self.accelerator.native_amp = amp
+        self.accelerator.native_amp = amp and use_gpu
         self.model = diffusion_model
 
         num_params = sum(p.numel() for p in self.model.parameters() if p.requires_grad)
@@ -308,7 +310,13 @@ class Trainer(object):
                 self.batch_size = train_batch_size
             print(f'Using batch size: {self.batch_size}')
             # dataset and dataloader
-            dl = DataLoader(dataset, batch_size=self.batch_size, shuffle=True, pin_memory=True, num_workers=cpu_count())
+            dl = DataLoader(
+                dataset,
+                batch_size=self.batch_size,
+                shuffle=True,
+                pin_memory=use_gpu,
+                num_workers=cpu_count(),
+            )
             dl = self.accelerator.prepare(dl)
             self.dl = cycle(dl)
         else:

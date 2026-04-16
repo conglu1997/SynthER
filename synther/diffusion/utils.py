@@ -9,7 +9,7 @@ import torch
 from torch import nn
 
 # GIN-required Imports.
-from synther.diffusion.denoiser_network import ResidualMLPDenoiser
+from synther.diffusion.denoiser_network import ResidualMLPDenoiser  # noqa: F401
 from synther.diffusion.elucidated_diffusion import ElucidatedDiffusion
 from synther.diffusion.norm import normalizer_factory
 
@@ -66,9 +66,10 @@ def construct_diffusion_model(
         normalizer_type: str,
         denoising_network: nn.Module,
         disable_terminal_norm: bool = False,
-        skip_dims: List[int] = [],
+        skip_dims: Optional[List[int]] = None,
         cond_dim: Optional[int] = None,
 ) -> ElucidatedDiffusion:
+    skip_dims = [] if skip_dims is None else list(skip_dims)
     event_dim = inputs.shape[1]
     model = denoising_network(d_in=event_dim, cond_dim=cond_dim)
 

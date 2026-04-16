@@ -2,7 +2,7 @@
 import argparse
 import pathlib
 
-import d4rl
+import d4rl  # noqa: F401
 import gin
 import gym
 import numpy as np
@@ -36,7 +36,8 @@ class SimpleDiffusionGenerator:
             self,
             num_samples: int,
     ) -> (np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray):
-        assert num_samples % self.sample_batch_size == 0, 'num_samples must be a multiple of sample_batch_size'
+        if num_samples % self.sample_batch_size != 0:
+            raise ValueError('num_samples must be a multiple of sample_batch_size')
         num_batches = num_samples // self.sample_batch_size
         observations = []
         actions = []
@@ -84,12 +85,15 @@ if __name__ == '__main__':
     parser.add_argument('--wandb-group', type=str, default="diffusion_training")
     #
     parser.add_argument('--results_folder', type=str, default='./results')
-    parser.add_argument('--use_gpu', action='store_true', default=True)
+    parser.add_argument('--use_gpu', '--use-gpu', dest='use_gpu', action='store_true')
+    parser.add_argument('--no_use_gpu', '--no-use-gpu', dest='use_gpu', action='store_false')
     parser.add_argument('--seed', type=int, default=0)
-    parser.add_argument('--save_samples', action='store_true', default=True)
+    parser.add_argument('--save_samples', '--save-samples', dest='save_samples', action='store_true')
+    parser.add_argument('--no_save_samples', '--no-save-samples', dest='save_samples', action='store_false')
     parser.add_argument('--save_num_samples', type=int, default=int(5e6))
     parser.add_argument('--save_file_name', type=str, default='5m_samples.npz')
     parser.add_argument('--load_checkpoint', action='store_true')
+    parser.set_defaults(use_gpu=True, save_samples=True)
     args = parser.parse_args()
 
     gin.parse_config_files_and_bindings(args.gin_config_files, args.gin_params)
@@ -117,6 +121,7 @@ if __name__ == '__main__':
         diffusion,
         dataset,
         results_folder=args.results_folder,
+        use_gpu=args.use_gpu,
     )
 
     if not args.load_checkpoint:
@@ -126,7 +131,7 @@ if __name__ == '__main__':
             entity=args.wandb_entity,
             config=args,
             group=args.wandb_group,
-            name=args.results_folder.split('/')[-1],
+            name=results_folder.name,
         )
         # Train model.
         trainer.train()
